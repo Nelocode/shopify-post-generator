@@ -18,7 +18,7 @@ body {
 
 @layer components {
   .glass-card {
-    @apply bg-opacity-10 bg-white backdrop-blur-lg border border-white border-opacity-10 rounded-2xl shadow-xl;
+    @apply bg-white/10 backdrop-blur-lg border border-white/10 rounded-2xl shadow-xl;
   }
   
   .premium-gradient {
@@ -26,7 +26,7 @@ body {
   }
   
   .nav-item {
-    @apply px-4 py-2 rounded-lg transition-all duration-200 hover:bg-white hover:bg-opacity-10;
+    @apply px-4 py-2 rounded-lg transition-all duration-200 hover:bg-white/10;
   }
   
   .btn-primary {
