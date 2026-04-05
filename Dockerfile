@@ -1,14 +1,24 @@
-# Dockerfile de la raíz (opcional para redirigir a Easypanel)
-# Este archivo es un respaldo. Lo ideal es usar el docker-compose.yml
-# Pero si se usa como App única, por defecto levantaremos el Backend.
-
-FROM python:3.10-slim
+FROM nikolaik/python-nodejs:python3.10-nodejs18-slim
 
 WORKDIR /app
 
-COPY backend/requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# 1. Instalar dependencias del backend
+COPY backend/requirements.txt ./backend/
+RUN pip install --no-cache-dir -r backend/requirements.txt
 
-COPY backend/ .
+# 2. Instalar dependencias del frontend y construirlo
+COPY frontend/package*.json ./frontend/
+RUN cd frontend && npm install
+COPY frontend/ ./frontend/
+RUN cd frontend && npm run build
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# 3. Copiar el código del backend y el script de inicio
+COPY backend/ ./backend/
+COPY start.sh ./
+RUN chmod +x start.sh
+
+# 4. Exponer únicamente el puerto del Frontend. 
+# El frontend accederá al backend de forma local.
+EXPOSE 3000
+
+CMD ["./start.sh"]

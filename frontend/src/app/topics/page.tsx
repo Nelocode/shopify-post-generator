@@ -8,7 +8,7 @@ export default function TopicsPage() {
 
   const fetchTopics = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/topics`);
+      const res = await fetch(`/api/topics`);
       if (res.ok) setTopics(await res.json());
     } catch(err) { console.error("Error cargando temas", err); }
   };
@@ -18,7 +18,7 @@ export default function TopicsPage() {
   const addTopic = async () => {
     if (!newTopic) return;
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/topics`, {
+      const res = await fetch(`/api/topics`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify([{ theme: newTopic }])
@@ -34,7 +34,7 @@ export default function TopicsPage() {
 
   const generateDraft = async (topicId: number) => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/generate-draft/${topicId}`, {
+      const res = await fetch(`/api/generate-draft/${topicId}`, {
         method: 'POST'
       });
       if (res.ok) {

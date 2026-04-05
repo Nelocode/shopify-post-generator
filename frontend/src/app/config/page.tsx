@@ -11,7 +11,7 @@ export default function ConfigPage() {
 
   useEffect(() => {
     // Cargar config actual al iniciar
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/config`)
+    fetch(`/api/config`)
       .then(res => {
         if (res.ok) return res.json();
         throw new Error('No config yet');
@@ -29,7 +29,7 @@ export default function ConfigPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/config`, {
+      const response = await fetch(`/api/config`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(config)
